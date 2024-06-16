@@ -1,24 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
-
+import axios from 'axios'
+import Header from "./components/Header";
+import NoteList from "./components/NoteList";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import NotePage from "./components/NotePage";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Router>
+          <div className={"container dark"}>
+              <div className={"app"}>
+                  <Routes>
+                      <Route path={"/"} exact Component={NoteList}/>
+                      <Route path={"/login"} exact Component={Login}/>
+                      <Route path={"/signup"} exact Component={Signup}/>
+                      <Route path={"/note/:id"} Component={NotePage}/>
+                 </Routes>
+              </div>
+          </div>
+
+      </Router>
+
   );
 }
 
