@@ -7,9 +7,6 @@ const NoteList = (props) => {
 
     let [notes, setNotes]  = useState([])
 
-    useEffect(() => {
-        getNotes()
-    }, []);
 
     const getNotes = async () => {
         await axios.get("http://localhost:8000/api", {
@@ -23,6 +20,14 @@ const NoteList = (props) => {
         })
 
     }
+
+     useEffect(() => {
+        getNotes()
+            .then(() => {
+                console.log('Notes : ', notes)
+            })
+    }, []);
+
 
     return (
         <>

@@ -6,8 +6,10 @@ import Header from "./Header";
 const NotePage = ({ match }) =>{
     let params = useParams()
 
-   let noteid = params.id;
+    let noteid = params.id;
     let [note, setNote] = useState(null)
+    let [updated, setUpated] = useState(false);
+    let [header, setHeader] = useState('Note details')
 
     useEffect(() => {
         getNote()
@@ -25,6 +27,15 @@ const NotePage = ({ match }) =>{
         })
    }
 
+   const updateHeader = () => {
+       setHeader("Note details - updated")
+       setTimeout(() => {
+           setHeader("Note details")
+       }, 2000)
+   }
+
+
+
    const updateNote = async () => {
        await axios.put(`http://localhost:8000/api/update/${noteid}`, {
            headers: {
@@ -33,7 +44,8 @@ const NotePage = ({ match }) =>{
            body: note.body
         })
            .then((response) => {
-            console.log(response)
+                console.log(response)
+                updateHeader()
             })
            .catch(error => {
                console.log(error.message)
@@ -48,14 +60,30 @@ const NotePage = ({ match }) =>{
 
     return (
     <>
-        <Header />
+        <Header text={header}/>
         <div className={"note"}>
             <div className={"note-header"}>
-                    <p onClick={handleSubmit}>back</p>
+                <p onClick={handleSubmit}>back</p>
             </div>
             <textarea defaultValue={note?.body}
                       onChange={e =>
-                          setNote({...note, 'body':e.target.value})}></textarea>
+                      {
+                          setNote({...note, 'body': e.target.value})
+                          setUpated(true)
+                      }}>
+
+            </textarea>
+            <center>
+                <button
+                    type="submit"
+                    className="floating-button"
+                    disabled={!updated}
+                    value="submit"
+                    onClick={updateNote}
+                >
+                    Update
+                </button>
+            </center>
         </div>
     </>)
 

@@ -6,7 +6,15 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import NotePage from "./components/NotePage";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import {useEffect} from "react";
 function App() {
+    useEffect(() => {
+        if (localStorage.getItem("Token") == null || undefined) {
+            if (!document.location.pathname.endsWith('/login')) {
+                document.location = "/login"
+            }
+        }
+    }, []);
   return (
       <Router>
           <div className={"container dark"}>

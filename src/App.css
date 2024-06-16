@@ -171,14 +171,13 @@ a {
 }
 
 .floating-button {
-  font-size: 48px;
+  font-size: 17px;
   position: absolute;
   bottom: 24px;
-  right: 16px;
+  right: 40%;
   background: var(--color-main);
   border: none;
-  width: 60px;
-  height: 60px;
+  width: 80px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -264,7 +263,7 @@ a {
 }
 
 
-.login-form button {
+button {
   background-color: var(--color-white);
   position: relative;
   padding: 16px 12px;
@@ -273,3 +272,5 @@ a {
   resize: none;
   margin-top: 20px;
 }
+
+
