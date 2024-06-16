@@ -7,7 +7,6 @@ const NoteList = (props) => {
 
     let [notes, setNotes]  = useState([])
 
-
     const getNotes = async () => {
         await axios.get("http://localhost:8000/api", {
             headers: {
@@ -28,6 +27,19 @@ const NoteList = (props) => {
             })
     }, []);
 
+     const DeleteNote = async (deleted) => {
+         await axios.delete(`http://localhost:8000/api/delete/${deleted}`, {
+            headers: {
+                'Authorization' : `Token ${localStorage.getItem("Token")}`
+            }
+        }).then((response) => {
+            console.log("Delete response : ", response)
+             notes.filter(note => {
+                 return note.id !== deleted
+             })
+             setNotes(notes => notes.filter(item => item.id !== deleted));
+        })
+    }
 
     return (
         <>
@@ -39,7 +51,7 @@ const NoteList = (props) => {
                 </div>
                 <div className={"notes-list"}>
                     {notes.map((note,index)=> (
-                        <ListItem key={index} note={note}/>
+                        <ListItem key={index} note={note} handleDelete={DeleteNote}/>
                     ))}
                 </div>
             </div>

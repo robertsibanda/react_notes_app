@@ -52,18 +52,15 @@ const NotePage = ({ match }) =>{
            })
    }
 
-   const handleSubmit = () => {
-       updateNote().then(() => {
-            document.location = "/"
-       })
-   }
 
     return (
     <>
         <Header text={header}/>
         <div className={"note"}>
             <div className={"note-header"}>
-                <p onClick={handleSubmit}>back</p>
+            <Link to={`/`}>
+                <p>back</p>
+            </Link>
             </div>
             <textarea defaultValue={note?.body}
                       onChange={e =>
