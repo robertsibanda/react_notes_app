@@ -1,31 +1,31 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {json, Link, useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import Header from "./Header";
+import API_URL from "../api";
 
-const NotePage = ({ match }) =>{
+const NotePage = () => {
     let params = useParams()
-
     let noteid = params.id;
     let [note, setNote] = useState(null)
     let [updated, setUpated] = useState(false);
     let [header, setHeader] = useState('Note details')
 
     useEffect(() => {
-        getNote()
-    }, []);
-
-   const getNote = async () => {
-       await axios.get(`http://localhost:8000/api/note/${noteid}`, {
-           headers: {
-                'Authorization' : `Token ${localStorage.getItem("Token")}`
+        const getNote = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/note/${noteid}`, {
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem("Token")}`
+                    }
+                })
+                setNote(response.data)
+            } catch (error) {
+                console.error("Error fetching note:", error)
             }
-        }).then((response) => {
-            let note_data = response.data
-            console.log(note_data)
-            setNote(note_data)
-        })
-   }
+        }
+        getNote()
+    }, [noteid])
 
    const updateHeader = () => {
        setHeader("Note details - updated")
@@ -34,15 +34,14 @@ const NotePage = ({ match }) =>{
        }, 2000)
    }
 
-
-
    const updateNote = async () => {
-       await axios.put(`http://localhost:8000/api/update/${noteid}`, {
-           headers: {
-                'Authorization' : `Token ${localStorage.getItem("Token")}`
-            },
-           body: note.body
-        })
+       await axios.put(`${API_URL}/update/${noteid}`,
+           { body: note.body },
+           {
+               headers: {
+                    'Authorization' : `Token ${localStorage.getItem("Token")}`
+                }
+           })
            .then((response) => {
                 console.log(response)
                 updateHeader()
@@ -51,7 +50,6 @@ const NotePage = ({ match }) =>{
                console.log(error.message)
            })
    }
-
 
     return (
     <>

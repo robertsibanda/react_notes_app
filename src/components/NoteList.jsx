@@ -2,42 +2,36 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import ListItem from "./ListItem";
 import Header from "./Header";
+import API_URL from "../api";
 
-const NoteList = (props) => {
-
+const NoteList = () => {
     let [notes, setNotes]  = useState([])
 
     const getNotes = async () => {
-        await axios.get("http://localhost:8000/api", {
-            headers: {
-                'Authorization' : `Token ${localStorage.getItem("Token")}`
-            }
-        }).then((response) => {
-            notes = response.data
-            console.log(notes)
-            setNotes(notes)
-        })
-
+        try {
+            const response = await axios.get(`${API_URL}`, {
+                headers: {
+                    'Authorization' : `Token ${localStorage.getItem("Token")}`
+                }
+            })
+            setNotes(response.data)
+        } catch (error) {
+            console.error("Error fetching notes:", error)
+        }
     }
 
      useEffect(() => {
         getNotes()
-            .then(() => {
-                console.log('Notes : ', notes)
-            })
     }, []);
 
      const DeleteNote = async (deleted) => {
-         await axios.delete(`http://localhost:8000/api/delete/${deleted}`, {
+         await axios.delete(`${API_URL}/delete/${deleted}`, {
             headers: {
                 'Authorization' : `Token ${localStorage.getItem("Token")}`
             }
         }).then((response) => {
             console.log("Delete response : ", response)
-             notes.filter(note => {
-                 return note.id !== deleted
-             })
-             setNotes(notes => notes.filter(item => item.id !== deleted));
+            setNotes(notes => notes.filter(item => item.id !== deleted));
         })
     }
 

@@ -1,35 +1,35 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import axios from "axios"
 import Header from "./Header";
+import {useNavigate} from "react-router-dom";
+import API_URL from "../api";
 
-const Signup = (props) => {
-
+const Signup = () => {
+    const navigate = useNavigate();
     let [username, setUsername] = useState(null)
     let [password, setPassword] = useState(null)
     let [email, setEmail] = useState(null)
 
     const signup = async () => {
-         await axios.post("http://localhost:8000/api/signup",
+        await axios.post(`${API_URL}/signup`,
             {
-                body: {
-                    username : username,
-                    password: password,
-                    email: email
-                }
+                username: username,
+                password: password,
+                email: email
             })
             .then(response => {
-                console.log('Response : ' , response)
+                console.log('Response : ', response)
                 if (response.data.error) {
                     alert(JSON.stringify(response.data))
-                }else if(response.data.token){
+                } else if (response.data.token) {
                     localStorage.setItem("Token", response.data.token)
-                    document.location = "/"
+                    navigate("/")
                 }
             })
             .catch(error => {
-              if (error.response.status === 404) {
-                  alert("User not found")
-              }
+                if (error.response.status === 404) {
+                    alert("User not found")
+                }
             })
     }
 
@@ -47,7 +47,6 @@ const Signup = (props) => {
                     <input type={"password"} placeholder={"password"}
                            onChange={e =>
                                setPassword(e.target.value)}/>
-
                 </center>
                 <center>
                     <button
@@ -61,7 +60,6 @@ const Signup = (props) => {
                     </button>
                 </center>
             </div>
-
         </div>
     </div>
 }

@@ -1,21 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios"
+import React from 'react';
 import {Link} from "react-router-dom";
 import image from "../images/delete.png"
 
 const ListItem = ({note, handleDelete}) => {
 
-    let [noteid, setNoteid] = useState(null)
-
-    useEffect(() => {
-        setNoteid(note.id)
-    }, []);
-
-    console.log('Note id set : ', noteid)
-
-    const handleDeleteNote = (note) => {
-        console.log('Deleteing note : ',noteid)
-        handleDelete(noteid)
+    const handleDeleteNote = () => {
+        console.log('Deleting note : ', note.id)
+        handleDelete(note.id)
     }
 
     return (
@@ -26,7 +17,7 @@ const ListItem = ({note, handleDelete}) => {
             <p onClick={handleDeleteNote}>
                 <img src={image}
                      width={"20px"}
-                     height={"25px"} alt={"delete image"}/>
+                     height={"25px"} alt={"delete"}/>
             </p>
         </div>)
 };

@@ -1,35 +1,34 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import axios from "axios"
 import Header from "./Header";
+import {useNavigate} from "react-router-dom";
+import API_URL from "../api";
 
-const Login = (props) => {
-
+const Login = () => {
+    const navigate = useNavigate();
     let [username, setUsername] = useState(null)
     let [password, setPassword] = useState(null)
-    let [token, setToken] = useState(null)
 
-    const login =  async () => {
+    const login = async () => {
         console.log("Logi inn")
-        await axios.post("http://localhost:8000/api/login",
+        await axios.post(`${API_URL}/login`,
             {
-                body: {
-                    username : username,
-                    password: password
-                }
+                username: username,
+                password: password
             })
             .then(response => {
-                console.log('Response : ' , response)
+                console.log('Response : ', response)
                 if (response.data.error) {
                     alert(JSON.stringify(response.data))
-                }else if(response.data.token){
+                } else if (response.data.token) {
                     localStorage.setItem("Token", response.data.token)
-                    document.location = "/"
+                    navigate("/")
                 }
             })
             .catch(error => {
-              if (error.response.status === 404) {
-                  alert("User not found")
-              }
+                if (error.response.status === 404) {
+                    alert("User not found")
+                }
             })
     }
 
@@ -44,7 +43,6 @@ const Login = (props) => {
                     <input type={"password"} placeholder={"password"}
                            onChange={e =>
                                setPassword(e.target.value)}/>
-
                 </center>
                 <center>
                     <button
@@ -58,7 +56,6 @@ const Login = (props) => {
                     </button>
                 </center>
             </div>
-
         </div>
     </div>
 }
