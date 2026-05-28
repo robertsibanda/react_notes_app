@@ -6,6 +6,10 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import {useEffect} from "react";
 
+/**
+ * Inner component that handles authentication redirect and renders routes.
+ * Redirects unauthenticated users to /login unless already on /login or /signup.
+ */
 function AppContent() {
     const navigate = useNavigate();
     useEffect(() => {
@@ -26,6 +30,9 @@ function AppContent() {
     );
 }
 
+/**
+ * Root application component. Wraps the app in a BrowserRouter with dark-themed container.
+ */
 function App() {
     return (
         <Router>

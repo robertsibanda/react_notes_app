@@ -4,9 +4,13 @@ import ListItem from "./ListItem";
 import Header from "./Header";
 import API_URL from "../api";
 
+/**
+ * NoteList component. Fetches and displays all notes for the authenticated user.
+ */
 const NoteList = () => {
     let [notes, setNotes]  = useState([])
 
+    /** Fetches all notes from the API. */
     const getNotes = async () => {
         try {
             const response = await axios.get(`${API_URL}`, {
@@ -24,6 +28,11 @@ const NoteList = () => {
         getNotes()
     }, []);
 
+     /**
+      * Deletes a note by id and removes it from the local state.
+      *
+      * @param {number} deleted - The id of the note to delete
+      */
      const DeleteNote = async (deleted) => {
          await axios.delete(`${API_URL}/delete/${deleted}`, {
             headers: {
@@ -50,7 +59,6 @@ const NoteList = () => {
                 </div>
             </div>
         </>
-
     )
 }
 

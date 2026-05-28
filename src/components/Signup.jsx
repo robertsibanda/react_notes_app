@@ -4,12 +4,17 @@ import Header from "./Header";
 import {useNavigate} from "react-router-dom";
 import API_URL from "../api";
 
+/**
+ * Signup page component. Renders a username/email/password form and creates
+ * a new account via the API.
+ */
 const Signup = () => {
     const navigate = useNavigate();
     let [username, setUsername] = useState(null)
     let [password, setPassword] = useState(null)
     let [email, setEmail] = useState(null)
 
+    /** Sends registration data to the API and navigates to the note list on success. */
     const signup = async () => {
         await axios.post(`${API_URL}/signup`,
             {

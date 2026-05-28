@@ -4,6 +4,9 @@ import {Link, useParams} from "react-router-dom";
 import Header from "./Header";
 import API_URL from "../api";
 
+/**
+ * NotePage component. Displays a single note's details and allows inline editing.
+ */
 const NotePage = () => {
     let params = useParams()
     let noteid = params.id;
@@ -12,6 +15,7 @@ const NotePage = () => {
     let [header, setHeader] = useState('Note details')
 
     useEffect(() => {
+        /** Fetches the note data from the API by id. */
         const getNote = async () => {
             try {
                 const response = await axios.get(`${API_URL}/note/${noteid}`, {
@@ -27,6 +31,7 @@ const NotePage = () => {
         getNote()
     }, [noteid])
 
+   /** Temporarily updates the header text to indicate a save happened. */
    const updateHeader = () => {
        setHeader("Note details - updated")
        setTimeout(() => {
@@ -34,6 +39,7 @@ const NotePage = () => {
        }, 2000)
    }
 
+   /** Saves the current note body to the API via a PUT request. */
    const updateNote = async () => {
        await axios.put(`${API_URL}/update/${noteid}`,
            { body: note.body },

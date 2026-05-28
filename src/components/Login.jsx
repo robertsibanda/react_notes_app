@@ -4,11 +4,16 @@ import Header from "./Header";
 import {useNavigate} from "react-router-dom";
 import API_URL from "../api";
 
+/**
+ * Login page component. Renders a username/password form and authenticates
+ * against the API.
+ */
 const Login = () => {
     const navigate = useNavigate();
     let [username, setUsername] = useState(null)
     let [password, setPassword] = useState(null)
 
+    /** Sends login credentials to the API and navigates to the note list on success. */
     const login = async () => {
         console.log("Logi inn")
         await axios.post(`${API_URL}/login`,
